@@ -12,6 +12,7 @@
  */
 
 &cci {
+	/* dw9767 */
 	actuator0: qcom,actuator@0 {
 		cell-index = <0>;
 		reg = <0x0>;
@@ -22,8 +23,12 @@
 		qcom,cam-vreg-min-voltage = <2850000>;
 		qcom,cam-vreg-max-voltage = <2850000>;
 		qcom,cam-vreg-op-mode = <80000>;
+		pinctrl-0 = <&cam_sensor_mclk0_default
+				&cam_sensor_rear_default>;
+		pinctrl-1 = <&cam_sensor_mclk0_sleep &cam_sensor_rear_sleep>;
 	};
 
+	/* dw9767 EEPROM */
 	eeprom0: qcom,eeprom@0 {
 		cell-index = <0>;
 		compatible = "qcom,eeprom";
@@ -64,11 +69,11 @@
 		qcom,clock-rates = <19200000 0>;
 	};
 
-	eeprom1: qcom,eeprom@1 {
-		cell-index = <1>;
-		qcom,slave-addr = <0x20>;
+	/* OV5695 OTP */
+	eeprom2: qcom,eeprom@2 {
+		cell-index = <2>;
+		reg = <0x02>;
 		compatible = "qcom,eeprom";
-		reg = <0x01>;
 		cam_vdig-supply = <&pm8937_l23>;
 		cam_vio-supply = <&pm8937_l6>;
 		qcom,cam-vreg-name = "cam_vdig", "cam_vio";
@@ -101,6 +106,7 @@
 		qcom,clock-rates = <19200000 0>;
 	};
 
+	/* IMX258 */
 	qcom,camera@0 {
 		cell-index = <0>;
 		compatible = "qcom,camera";
@@ -148,14 +154,15 @@
 		qcom,clock-rates = <24000000 0>;
 	};
 
+	/* OV5695 */
 	qcom,camera@3 {
-		cell-index = <1>;
+		cell-index = <3>;
 		compatible = "qcom,camera";
-		reg = <0x01>;
-		qcom,csiphy-sd-index = <1>;
-		qcom,csid-sd-index = <1>;
-		qcom,eeprom-src = <&eeprom1>;
+		reg = <0x03>;
+		qcom,csiphy-sd-index = <2>;
+		qcom,csid-sd-index = <2>;
 		qcom,mount-angle = <270>;
+		qcom,eeprom-src = <&eeprom2>;
 		cam_vdig-supply = <&pm8937_l23>;
 		cam_vio-supply = <&pm8937_l6>;
 		qcom,cam-vreg-name = "cam_vdig", "cam_vio";
